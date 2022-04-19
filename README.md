@@ -1,11 +1,11 @@
 
 # Table of Contents
 
-1.  [Set it up the project](#org89167eb)
+1.  [Set it up the project](#orga952b0e)
 
 
 
-<a id="org89167eb"></a>
+<a id="orga952b0e"></a>
 
 # Set it up the project
 
@@ -21,10 +21,9 @@
 2.  install `pip`
 3.  create a new environment [pyenv](https://realpython.com/intro-to-pyenv/) and activate it
     
-    1.  new enviroments
+    1.  new enviroment
     
-        pyenv install --list # choose the python version
-        # e.g. pyenv install 3.10.2 this install the python version
+        pyenv install --list # choose the python version e.g. pyenv install 3.10.2 
     
         pyenv virtualenv 3.10.2 django-virtual-enviroment
 4.  create a `.gitignore`

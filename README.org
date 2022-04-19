@@ -22,10 +22,9 @@
    #+end_src
 2. install =pip=
 3. create a new environment [[https://realpython.com/intro-to-pyenv/][pyenv]] and activate it
-   1. new enviroments
+   1. new enviroment
    #+begin_src bash
-     pyenv install --list # choose the python version
-     # e.g. pyenv install 3.10.2 this install the python version
+     pyenv install --list # choose the python version e.g. pyenv install 3.10.2 
    #+end_src
 
    #+RESULTS:
