@@ -721,5 +721,17 @@
    1. =C-x g= follow the instructions create first repository, new
       buffer will be open
    2. *stage* and *commits*
-      
-   
+      1. =S=
+      2. =c= =c=
+      3. =C-c C-c=
+   3. rename the branch in *main*
+   4. add the remote branch:
+      1. =M=
+      2. =a=
+      3. =origin=
+      4. https://github.com/littl3-R/django_zth.git
+      5. =y=
+   5. push
+      1. =P=
+      2. =p=
+      3. insert password
