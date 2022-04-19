@@ -9,7 +9,7 @@
 #+TOC: table
 #+TOC: listing
 
-* Set it up the project
+* Set up the project
 1. create a repository on *GitHub* then it suggests the follow commands
    #+begin_src bash
      echo "# django_zth" >> README.md
@@ -572,6 +572,13 @@
    #+RESULTS:
    1. activate it
       =M-x python-workon= pick *django-virtual-enviroment*
+   2. create a ~.python-version~
+      #+begin_src bash
+	cat ./.python-version
+      #+end_src
+
+      #+RESULTS:
+      : django-virtual-enviroment
 4. create a ~.gitignore~
    #+begin_src bash
      # Byte-compiled / optimized / DLL files
@@ -734,3 +741,144 @@
       1. =P=
       2. =p=
       3. insert password
+6. install *django* and check if it works
+   #+begin_src bash
+     python -m pip install Django
+   #+end_src
+
+   #+RESULTS:
+   | Collecting   | Django                        |                                 |               |                |        |
+   | Downloading  | Django-4.0.4-py3-none-any.whl | (8.0                            | MB)           |                |        |
+   | Collecting   | sqlparse>=0.2.2               |                                 |               |                |        |
+   | Using        | cached                        | sqlparse-0.4.2-py3-none-any.whl | (42           | kB)            |        |
+   | Collecting   | asgiref<4,>=3.4.1             |                                 |               |                |        |
+   | Using        | cached                        | asgiref-3.5.0-py3-none-any.whl  | (22           | kB)            |        |
+   | Installing   | collected                     | packages:                       | sqlparse,     | asgiref,       | Django |
+   | Successfully | installed                     | Django-4.0.4                    | asgiref-3.5.0 | sqlparse-0.4.2 |        |
+
+   #+begin_src bash
+     python
+     import django
+     print(django.get_version())
+   #+end_src
+
+  #+RESULTS:
+  : 4.0.4
+* first Django app
+** create a project
+#+begin_src bash
+  django-admin startproject mysite
+#+end_src
+
+#+RESULTS:
+
+#+begin_src bash
+  tree ./mysite/
+#+end_src
+
+#+RESULTS:
+| ./mysite/ |             |   |       |
+| ├──       | manage.py   |   |       |
+| └──       | mysite      |   |       |
+| ├──       | asgi.py     |   |       |
+| ├──       | __init__.py |   |       |
+| ├──       | settings.py |   |       |
+| ├──       | urls.py     |   |       |
+| └──       | wsgi.py     |   |       |
+|           |             |   |       |
+| 1         | directory,  | 6 | files |
+
+The ~__init__.py~ file tells to django that this is a [[https://docs.python.org/3/tutorial/modules.html#tut-packages][package in python]]
+** run dev server
+#+begin_src bash
+  python mysite/manage.py runserver # you can run in .org too
+#+end_src
+** create an app
+#+begin_src bash
+  cd mysite
+  python manage.py startapp polls
+#+end_src
+
+#+RESULTS:
+
+#+begin_src bash
+  tree ./mysite/polls/
+#+end_src
+
+#+RESULTS:
+| ./mysite/polls/ |             |             |       |
+| ├──             | admin.py    |             |       |
+| ├──             | apps.py     |             |       |
+| ├──             | __init__.py |             |       |
+| ├──             | migrations  |             |       |
+| │               | └──         | __init__.py |       |
+| ├──             | models.py   |             |       |
+| ├──             | tests.py    |             |       |
+| └──             | views.py    |             |       |
+|                 |             |             |       |
+| 1               | directory,  |           7 | files |
+* ...continue
+The project and the first app are set them up, form now I'll write the
+files directly instead editing the .org
+** some notes
+The =include()= function allows referencing the URLconfs.
+
+The migrate command looks at the *INSTALLED_APPS* setting and creates
+any necessary database tables according to the database settings in
+your mysite/settings.py
+
+Once you have create or updated the ~models.py~ and =migrate= you have
+to add the new app in django. See the ~polls/apps.py~
+
+This command is helpful:
+#+begin_src bash
+  python mysite/manage.py check
+#+end_src
+
+#+RESULTS:
+: System check identified no issues (0 silenced).
+
+this checks for any problems in the project
+* playing with the API
+#+begin_src bash
+  python mysite/manage.py shell
+#+end_src
+
+#+begin_example
+>>> from polls.models import Question, Choice
+>>> Question.objects.all()
+>>> Question.objects.all()
+<QuerySet []>
+>>> from django.utils import timezone
+>>> timezone.now()
+datetime.datetime(2022, 4, 19, 16, 35, 38, 486045, tzinfo=datetime.timezone.utc)
+>>> q = Question(question_text="What's new?", pub_date=timezone.now())
+>>> q
+<Question: Question object (None)>
+>>> q.save()
+>>> q
+<Question: Question object (1)>
+>>> q.id
+1
+>>> q.pub_date
+datetime.datetime(2022, 4, 19, 16, 36, 13, 941778, tzinfo=datetime.timezone.utc)
+>>> q.question_text
+"What's new?"
+>>> q.question_text = "What's up?"
+>>> q.save()
+>>> Questio.objects.all()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'Questio' is not defined
+>>> Questions.objects.all()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'Questions' is not defined
+>>> Question.objects.all()
+<QuerySet [<Question: Question object (1)>]>
+>>>
+#+end_example
+* site admin
+#+begin_src bash
+  python manage.py createsuperuser
+#+end_src
